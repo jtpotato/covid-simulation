@@ -5,6 +5,8 @@ def simulate(population, initial_cases, simulation_days, covid_r0, recovery_days
     immune = []
     recovered = 0
 
+    spread_rate = covid_r0
+
     policies_active = False
 
     with open(filename, "w") as f:
@@ -12,13 +14,14 @@ def simulate(population, initial_cases, simulation_days, covid_r0, recovery_days
         
         for day in range(simulation_days):
             # Apply policies
-            if not policies_active and sum(cases) > population * 0.05:
+            if not policies_active and sum(cases) > population * 0.001:
                 if "MASKS" in policies:
-                    covid_r0 = covid_r0 * 0.25
+                    print("Implementing masks")
+                    spread_rate = spread_rate * 0.5
                 if "LOCKDOWN" in policies:
-                    covid_r0 = covid_r0 * 0.1
+                    spread_rate = spread_rate * 0.1
                 if "VACCINE" in policies:
-                    covid_r0 = covid_r0 * 0.5
+                    spread_rate = spread_rate * 0.5
                 policies_active = True
 
             # Find proportion of uninfected people
@@ -31,11 +34,11 @@ def simulate(population, initial_cases, simulation_days, covid_r0, recovery_days
                     # the channce of a person being infected is COVID's R0 number, spread out over the days a person is infectious
                     # (the R0 number is the number of people an infected person will infect, through the entire duration of the infection)
                     # currently infected people cannot be infected again, so we only infected the portion of the population that is not infected
-                    if random.random() < (covid_r0 / recovery_days) * infectable_proportion:
+                    if random.random() < (spread_rate / recovery_days) * infectable_proportion:
                         new_cases_today += 1
                 cases.append(new_cases_today)
             else:
-                cases.append(int(sum(cases) * (covid_r0 / recovery_days) * infectable_proportion))
+                cases.append(int(sum(cases) * (spread_rate / recovery_days) * infectable_proportion))
 
             # Remove cases that have recovered
             if len(cases) > recovery_days:
@@ -47,7 +50,7 @@ def simulate(population, initial_cases, simulation_days, covid_r0, recovery_days
             if len(immune) > immune_days:
                 immune.pop(0)
 
-            print(f"Day {day+1}, added {cases[-1]} cases, total {sum(cases)} cases.")
+            # print(f"Day {day+1}, added {cases[-1]} cases, total {sum(cases)} cases.")
             if save_file:
                 print(f"{day}, {sum(cases)}, {cases[-1]}, {recovered}, {population}", file=f)
 
