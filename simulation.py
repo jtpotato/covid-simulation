@@ -52,4 +52,4 @@ def simulate(population, initial_cases, simulation_days, covid_r0, immune_days, 
             if save_file:
                 print(f"{day}, {cumulative_cases}, {cases}, {new_cases_today}, {population}", file=f)
 
-    return cumulative_cases
+    return cases, cumulative_cases
