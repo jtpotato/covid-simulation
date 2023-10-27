@@ -20,6 +20,8 @@ print(f"COVID Re (with Victorian Stage 4 - 2020 Restrictions): {covid_re_stage_4
 # Simulate the spread of COVID in the world from 282 cases on January 21st, if the world followed Victorian restrictions during that timeframe.
 simulate(population=8000000000, initial_cases=282, simulation_days=344, covid_r0=covid_re_stage_4, immune_days=200, save_file=True, filename="data/stage_4-2020.csv")
 
+simulate(population=8000000000, initial_cases=10, simulation_days=344, covid_r0=covid_re_stage_4, immune_days=200, save_file=True, filename="data/stage_4_low_cases.csv")
+
 # Find Re of COVID-19 using data from Victoria (> 70% vaccination rate, masks) between 18th September and 18th October
 covid_re_vaccine = find_r0(initial_cases=4974, final_cases=22327, population=6681000, days=30, iterations=10000, mode="active")
 print(f"COVID Re (with > 70% vaccination rate, masks - Late 2021 Restrictions): {covid_re_vaccine}")

@@ -1,9 +1,10 @@
 import random
+import split_recoveries
 
 def simulate(population, initial_cases, simulation_days, covid_r0, immune_days, policies=[], save_file = False, filename = "results.csv"):
     cases = initial_cases
     immune = []
-    to_recover = [int(initial_cases / 14)] * 14 + ([0] * simulation_days * 2) # spread recovery dates of initial cases over 14 days
+    to_recover = split_recoveries.split(cases) + ([0] * simulation_days * 2) # spread recovery dates of initial cases over 14 days
     # pad list with (unnecessarily) additional 0s to avoid index errors
     cumulative_cases = initial_cases
 
@@ -23,14 +24,21 @@ def simulate(population, initial_cases, simulation_days, covid_r0, immune_days, 
             # Find proportion of uninfected people
             infectable_proportion = 1 - ((cases + sum(immune)) / population)
 
-            new_cases_today = (int(cases * (spread_rate / 14) * infectable_proportion))
+            if cases < 50:
+                # Use random to determine spread
+                for i in range(cases):
+                    if random.random() < (spread_rate / 14) * infectable_proportion:
+                        new_cases_today += 1
+            else:
+                new_cases_today = (int(cases * (spread_rate / 14) * infectable_proportion))
             
             cumulative_cases += new_cases_today
             cases += new_cases_today
 
             # Calculate new recovery dates for these cases
+            recovery_list = split_recoveries.split(new_cases_today)
             for i in range(14):
-                to_recover[i + 6] += int(new_cases_today / 14) # minimum 7 day infections, spread recovery dates over 14 days.
+                to_recover[i + 6] += recovery_list[i] # minimum 7 day infections, spread recovery dates over 14 days.
                 # print(day)
 
             # Remove immunity numbers that are no longer immune (simple model)
