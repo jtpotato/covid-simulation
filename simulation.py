@@ -23,18 +23,7 @@ def simulate(population, initial_cases, simulation_days, covid_r0, immune_days, 
             # Find proportion of uninfected people
             infectable_proportion = 1 - ((cases + sum(immune)) / population)
 
-            # Use random chance to simulate infections for small numbers.
-            if cases < 50:
-                for i in range(cases):
-                    # the channce of a person being infected is COVID's R0 number, spread out over the days a person is infectious
-                    # (the R0 number is the number of people an infected person will infect, through the entire duration of the infection)
-                    # For simplicity, we assume that the R0 number is the same for every day of the infection
-                    # and that the average infection time is 14 days.
-                    # currently infected people cannot be infected again, so we only infected the portion of the population that is not infected
-                    if random.random() < (spread_rate / 14) * infectable_proportion:
-                        new_cases_today += 1
-            else:
-                new_cases_today = (int(cases * (spread_rate / 14) * infectable_proportion))
+            new_cases_today = (int(cases * (spread_rate / 14) * infectable_proportion))
             
             cumulative_cases += new_cases_today
             cases += new_cases_today
