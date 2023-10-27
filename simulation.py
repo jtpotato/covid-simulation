@@ -14,7 +14,7 @@ def simulate(population, initial_cases, simulation_days, covid_r0, recovery_days
         
         for day in range(simulation_days):
             # Apply policies
-            if not policies_active and sum(cases) > population * 0.001:
+            if not policies_active and sum(cases) > population * 0.0001:
                 if "MASKS" in policies:
                     print("Implementing masks")
                     spread_rate = spread_rate * 0.5

@@ -14,7 +14,7 @@ simulate(population=8000000000, initial_cases=100, simulation_days=365, covid_r0
 
 # Simulate the spread of COVID with masks.
 # Cutting the R0 by 75% is a rough estimate of the effectiveness of masks.
-# For simplicity, policies come into effect when 5% of the population is infected.
+# For simplicity, policies come into effect when 0.01% of the population is infected (80 million people!!)
 simulate(population=8000000000, initial_cases=100, simulation_days=365, covid_r0=covid_r0, recovery_days=14, immune_days=200, policies=["MASKS"],  save_file=True, filename="data/masks.csv")
 
 # Simulate the spread of COVID with lockdown.
