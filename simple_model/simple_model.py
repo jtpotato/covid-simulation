@@ -3,10 +3,9 @@ final_cases = 12741386
 days = 28 # Days between 8-6-2020 and 6-7-2020
 
 # Calculate alpha.
-correction_rate = 0.001
 alpha = 0.03
 
-for i in range(100):
+for i in range(1000):
     cases = initial_cases
 
     for i in range(days):
@@ -14,16 +13,13 @@ for i in range(100):
 
     # Change alpha
     if final_cases - cases < 0:
-        alpha = alpha - correction_rate
+        alpha = alpha - 0.0001
     if final_cases - cases > 0:
-        alpha = alpha + correction_rate
+        alpha = alpha + 0.0001
     if final_cases - cases == 0:
         break
 
-    # Change correction rate
-    correction_rate = correction_rate * 0.95
-
-print(f"Alpha Value: {alpha}") # Alpha Value: 0.01782175760401952
+print(f"Alpha Value: {alpha}") # Alpha Value: 0.017800000000000073
 
 # Calculate cases on December 31st 2020
 cases = final_cases # Cases from 6-7-2020
