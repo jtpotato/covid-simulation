@@ -25,4 +25,4 @@ simulate(population=8000000000, initial_cases=100, simulation_days=365, covid_r0
 simulate(population=8000000000, initial_cases=100, simulation_days=365, covid_r0=covid_r0, recovery_days=14, immune_days=200, policies=["MASKS", "LOCKDOWN"], save_file=True, filename="data/masks_and_lockdown.csv")
 
 # Simulate the spread of COVID with masks and lockdown and vaccine.
-simulate(population=8000000000, initial_cases=1, simulation_days=365, covid_r0=covid_r0, recovery_days=14, immune_days=200, save_file=True, policies=["MASKS", "LOCKDOWN", "VACCINE"], filename="data/masks_and_lockdown_and_vaccine.csv")
+simulate(population=8000000000, initial_cases=100, simulation_days=365, covid_r0=covid_r0, recovery_days=14, immune_days=200, save_file=True, policies=["MASKS", "LOCKDOWN", "VACCINE"], filename="data/masks_and_lockdown_and_vaccine.csv")
